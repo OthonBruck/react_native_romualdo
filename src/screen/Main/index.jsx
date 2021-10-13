@@ -1,4 +1,4 @@
-import { View } from "native-base";
+import { Center, View } from "native-base";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { justifyContent, lineHeight } from "styled-system";
@@ -21,7 +21,9 @@ export default function Main({ navigation }) {
   return (
     <>
       <View backgroundColor="#252730" height="100%" flexWrap="nowrap">
-        <Text style={styles.title}>Lançamentos</Text>
+        <Center>
+          <Text style={styles.title}>Lançamentos</Text>
+        </Center>
         <BoxDetalhes navigation={navigation} />
       </View>
     </>
