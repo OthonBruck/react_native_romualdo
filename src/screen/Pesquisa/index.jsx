@@ -1,40 +1,38 @@
-import { Center, Heading, Input, Stack, View } from "native-base";
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, TouchableWithoutFeedback, View } from "react-native";
+import BoxDetalhes from "../../components/BoxDetalhes";
+import api from "../../services/api";
+import { endpoints } from "../../services/endpoints";
 
-const styles = StyleSheet.create({
-  title: {
-    color: 'white',
-    fontSize: 24,
-    marginLeft: 4,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-});
+export default function Pesquisa({ navigation }) {
+  const [dado, setDado] = useState([])
 
-export default function Pesquisa() {
+  function movie(page, query) {
+    const queryParams = new URLSearchParams({ page, query }).toString();
+    return api.get(endpoints.searchMovie(queryParams));
+  }
+  useEffect(() => {
+    const moviePage = async () => {
+      const response = await movie(1, "spider");
+      console.log(response);
+      setDado(response.data.results);
+    }
+    moviePage()
+  }, []);
+
   return (
-    <>
-      <View backgroundColor="#252730" height="100%" flexWrap="nowrap">
-        <Center flex={1} px="3">
-
-          <Stack
-            space={4}
-            w={{
-              base: "70%",
-              md: "20%",
-            }}
-          >
-            <Center>
-              <Heading textAlign="center" mb="10" style={{ color: 'white' }}>
-                Pesquisar
-              </Heading>
-            </Center>
-            <Input variant="outline" placeholder="Pesquise" />
-          </Stack>
-        </Center>
-      </View>
-    </>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#222831" }}>
+      <ScrollView>
+        {dado && dado?.slice(0, 5).map((dado) => {
+          return (<>
+            <TouchableWithoutFeedback style={{ backgroundColor: 'white' }} onPress={() => navigation.navigate("Detalhes", { selectedMovie: dado.id })}>
+              <View>
+                <BoxDetalhes data={dado} />
+              </View>
+            </TouchableWithoutFeedback>
+          </>)
+        })}
+      </ScrollView>
+    </SafeAreaView>
   );
 }

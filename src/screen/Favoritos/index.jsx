@@ -1,7 +1,7 @@
-import { Center, View } from "native-base";
-import React from "react";
-import { StyleSheet, Text } from "react-native";
-import BoxDetalhes from "../../components/BoxDetalhes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { Text } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   title: {
@@ -14,15 +14,39 @@ const styles = StyleSheet.create({
   },
 });
 
+
+
 export default function Favoritos({ navigation }) {
+  const [favoritos, setFavoritos] = useState([])
+  useEffect(() => {
+    async function Async() {
+      const dados = await JSON.parse(AsyncStorage.getItem("favoritos"));
+      console.log(dados);
+      if (dados === null) {
+        setFavoritos([]);
+      } else {
+        setFavoritos(JSON.stringify(dados));
+      }
+    }
+    Async()
+    console.log(favoritos);
+  }, []);
   return (
     <>
-      <View backgroundColor="#252730" height="100%" flexWrap="nowrap">
-        <Center>
-          <Text style={styles.title}>Favoritos</Text>
-        </Center>
-        <BoxDetalhes navigation={navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#222831" }}>
+        <ScrollView>
+          <Text style={{ color: '#eeeeee', fontSize: 20 }}>Favoritos</Text>
+          {favoritos && favoritos.map((dado) => {
+            return (<>
+              <TouchableWithoutFeedback style={{ backgroundColor: 'white' }} onPress={() => navigation.navigate("Detalhes", { selectedMovie: dado.id })}>
+                <View>
+                  <BoxDetalhes data={dado} />
+                </View>
+              </TouchableWithoutFeedback>
+            </>)
+          })}
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

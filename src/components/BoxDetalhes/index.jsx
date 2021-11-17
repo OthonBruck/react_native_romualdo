@@ -1,50 +1,46 @@
-import { Box } from "native-base";
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { Image, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { alignItems, flex, height, marginBottom, width } from "styled-system";
 
 const styles = StyleSheet.create({
     logo: {
-        height: 120,
-        width: 70,
+        height: 117,
+        width: 100,
         resizeMode: "contain",
     },
     container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         marginTop: 10,
+        backgroundColor: "#393E46",
+        width: '90%',
+        borderRadius: 4,
+        height: 120,
+        flexDirection: 'row',
+        padding: 2
     },
-    title: {
-        color: 'aliceblue',
-        fontSize: 14
-    },
-    description: {
-        color: 'aliceblue',
-        fontSize: 13
-    }
 });
 
-export default function BoxDetalhes({ navigation }) {
-    console.log(navigation);
+export default function BoxDetalhes({ navigation, data }) {
     return (
         <>
-            <View height="100%" style={styles.container} >
-                <Box safeAreaTop width="90%" height={120} backgroundColor="#1d1f26" borderRadius={10} marginBottom={3} flexWrap='wrap' onClick={() => {
-                    navigation.navigate('Search');
-                }}>
-                    <Box width='25%'>
-                        <Image
-                            style={styles.logo}
-                            source={require("../../assets/MediaFetch.png")}
-                        />
-
-                    </Box>
-                    <Box width="75%">
-                        <Text style={styles.title}>TITULO DA SERIE/FILME</Text>
-                        <Text style={styles.description}>DESCRICAO DA SERIE/FILME</Text>
-                    </Box>
-                </Box>
-            </View>
+            <SafeAreaView style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                <View style={styles.container}>
+                    <View style={{ display: 'flex', alignItems: 'center', width: '20%', height: '100%', alignContent: 'flex-end' }}>
+                        <Image style={styles.logo} source={{ uri: `http://image.tmdb.org/t/p/w500/${data.poster_path}` }} />
+                    </View>
+                    <View style={{ display: 'flex', alignItems: 'center', width: '80%', height: '20%', alignContent: 'flex-end' }}>
+                        <Text style={{ color: '#eeeeee', fontWeight: 'bold' }}>{data.original_title}</Text>
+                        <View style={{ width: '80%', height: 'auto', marginTop: 3 }}>
+                            <Text style={{ color: '#eeeeee', fontSize: 10 }}>Popularidade: {data.popularity}</Text>
+                        </View>
+                        <View style={{ width: '80%', height: 'auto', marginTop: 3 }}>
+                            <Text style={{ color: '#eeeeee', fontSize: 10 }}>Contagem de Votos: {data.vote_count}</Text>
+                        </View>
+                        <View style={{ width: '80%', height: 'auto', marginTop: 3 }}>
+                            <Text style={{ color: '#eeeeee', fontSize: 10 }}>Vote Average: {data.vote_average}</Text>
+                        </View>
+                    </View>
+                </View>
+            </SafeAreaView>
         </>
     );
 }
