@@ -55,7 +55,7 @@ export default function Details({ navigation, route }) {
         }
         fetchDetails();
         fetchProvider();
-    }, [route.params.selectedMovie]);
+    }, [route?.params?.selectedMovie]);
 
     const adicionarFavorito = (favorito) => setFavoritos((prevState) => [favorito, ...prevState]);
 

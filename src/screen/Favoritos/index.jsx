@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import BoxDetalhes from "../../components/BoxDetalhes";
 
 const styles = StyleSheet.create({
   title: {
@@ -20,16 +21,15 @@ export default function Favoritos({ navigation }) {
   const [favoritos, setFavoritos] = useState([])
   useEffect(() => {
     async function Async() {
-      const dados = await JSON.parse(AsyncStorage.getItem("favoritos"));
+      const dados = JSON.parse(await AsyncStorage.getItem("favoritos"));
       console.log(dados);
       if (dados === null) {
         setFavoritos([]);
       } else {
-        setFavoritos(JSON.stringify(dados));
+        setFavoritos(dados);
       }
     }
     Async()
-    console.log(favoritos);
   }, []);
   return (
     <>
