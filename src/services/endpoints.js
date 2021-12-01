@@ -49,6 +49,7 @@ export const endpoints = {
         `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=d61ca0998c8a152c6556e310a4a8e4db&language=pt-BR`,
     personTvsCredits: (id) =>
         `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=d61ca0998c8a152c6556e310a4a8e4db&language=pt-BR`,
-    // Movie Provider
-    movieProvider: (id) => `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=d61ca0998c8a152c6556e310a4a8e4db`
+    // Providers
+    movieProvider: (id) => `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=d61ca0998c8a152c6556e310a4a8e4db`,
+    tvProvider: (id) => `https://api.themoviedb.org/3/tv/${id}/watch/providers?api_key=d61ca0998c8a152c6556e310a4a8e4db`
 };

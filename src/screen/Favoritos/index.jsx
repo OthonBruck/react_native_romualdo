@@ -1,8 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import BoxDetalhes from "../../components/BoxDetalhes";
+import { getFavoritos } from "../../config/Firebase";
+
 
 const styles = StyleSheet.create({
   title: {
@@ -19,26 +21,23 @@ const styles = StyleSheet.create({
 
 export default function Favoritos({ navigation }) {
   const [favoritos, setFavoritos] = useState([])
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    async function Async() {
-      const dados = JSON.parse(await AsyncStorage.getItem("favoritos"));
-      console.log(dados);
-      if (dados === null) {
-        setFavoritos([]);
-      } else {
-        setFavoritos(dados);
-      }
+    (async () => {
+      const a = await getFavoritos()
+      setFavoritos(a)
     }
-    Async()
-  }, []);
+    )();
+  }, [isFocused])
+
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: "#222831" }}>
         <ScrollView>
-          <Text style={{ color: '#eeeeee', fontSize: 20 }}>Favoritos</Text>
-          {favoritos && favoritos.map((dado) => {
+          {favoritos && favoritos?.map((dado) => {
             return (<>
-              <TouchableWithoutFeedback style={{ backgroundColor: 'white' }} onPress={() => navigation.navigate("Detalhes", { selectedMovie: dado.id })}>
+              <TouchableWithoutFeedback style={{ backgroundColor: 'white' }} onPress={() => navigation.navigate("Detalhes", { selectedId: dado.id, tipo: dado.name ? 'pessoa' : "filme" })}>
                 <View>
                   <BoxDetalhes data={dado} />
                 </View>

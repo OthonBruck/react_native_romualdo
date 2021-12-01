@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { Image, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import { alignItems, flex, height, marginBottom, width } from "styled-system";
+import React from "react";
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
     logo: {
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function BoxDetalhes({ navigation, data }) {
+export default function BoxDetalheSerie({ navigation, data }) {
     return (
         <>
             <SafeAreaView style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
@@ -28,7 +27,7 @@ export default function BoxDetalhes({ navigation, data }) {
                         <Image style={styles.logo} source={{ uri: `http://image.tmdb.org/t/p/w500/${data.poster_path}` }} />
                     </View>
                     <View style={{ display: 'flex', alignItems: 'center', width: '80%', height: '20%', alignContent: 'flex-end' }}>
-                        <Text style={{ color: '#eeeeee', fontWeight: 'bold' }}>{data.original_title ? data.original_title : data.name}</Text>
+                        <Text style={{ color: '#eeeeee', fontWeight: 'bold' }}>{data.name}</Text>
                         <View style={{ width: '80%', height: 'auto', marginTop: 3 }}>
                             <Text style={{ color: '#eeeeee', fontSize: 10 }}>Popularidade: {data.popularity}</Text>
                         </View>
